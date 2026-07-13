@@ -15,6 +15,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: 🧾 克隆仓库
@@ -30,10 +32,19 @@ jobs:
           bash ./build.sh --rom "${{ github.event.inputs.rom }}" \
                           --url "${{ github.event.inputs.url }}"
 
+      - name: 📦 打包产物
+        run: |
+          cd tmp/release
+          zip -r "${{ github.event.inputs.rom }}.zip" .
+          mv "${{ github.event.inputs.rom }}.zip" "${GITHUB_WORKSPACE}/"
+
       - name: 🚀 发布到 Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.event.inputs.rom }}
+          name: ${{ github.event.inputs.rom }}
+          body: "Magisk 模块构建：${{ github.event.inputs.rom }}"
+          files: "${{ github.event.inputs.rom }}.zip"
           name: ${{ github.event.inputs.rom }}
           body: "Magisk 模块构建：${{ github.event.inputs.rom }}"
           files: ${{ github.event.inputs.rom }}.zip
