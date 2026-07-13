@@ -30,8 +30,11 @@ jobs:
           bash ./build.sh --rom "${{ github.event.inputs.rom }}" \
                           --url "${{ github.event.inputs.url }}"
 
-      - name: 📦 上传构建产物
-        uses: actions/upload-artifact@main
+      - name: 🚀 发布到 Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: "${{ github.event.inputs.rom }}"
-          path: tmp/release/
+          tag_name: ${{ github.event.inputs.rom }}
+          name: ${{ github.event.inputs.rom }}
+          body: "Magisk 模块构建：${{ github.event.inputs.rom }}"
+          files: ${{ github.event.inputs.rom }}.zip
+
