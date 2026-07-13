@@ -45,7 +45,3 @@ jobs:
           name: ${{ github.event.inputs.rom }}
           body: "Magisk 模块构建：${{ github.event.inputs.rom }}"
           files: "${{ github.event.inputs.rom }}.zip"
-          name: ${{ github.event.inputs.rom }}
-          body: "Magisk 模块构建：${{ github.event.inputs.rom }}"
-          files: ${{ github.event.inputs.rom }}.zip
-
